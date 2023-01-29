@@ -2,13 +2,16 @@ FROM alpine:3.16 as rootfs-stage
 # environment
 ENV REL=v3.17
 ENV ARCH=x86_64
-ENV MIRROR=http://mirror.aarnet.edu.au/pub/alpine
+ENV MIRROR=mirror.aarnet.edu.au/pub
 ENV PACKAGES=alpine-baselayout,\
 alpine-keys,\
 apk-tools,\
 busybox,\
 libc-utils,\
 xz
+# Set Mirror
+RUN sed -i 's/dl-cdn.alpinelinux.org/${MIRROR}/' /etc/apk/repositories
+
 # install packages
 RUN \
  apk add --no-cache \
