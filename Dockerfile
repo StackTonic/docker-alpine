@@ -10,7 +10,7 @@ busybox,\
 libc-utils,\
 xz
 # Set Mirror
-RUN sed -i 's/dl-cdn.alpinelinux.org/${MIRROR}/' /etc/apk/repositories
+RUN sed -i "s/dl-cdn.alpinelinux.org/${MIRROR}/"" /etc/apk/repositories
 
 # install packages
 RUN \
