@@ -2,8 +2,8 @@
 pipeline {
 
     parameters {
-        string(name: 'BASE_DOCKER_REGISTRY_URL', defaultValue: 'hub.docker.com', description: 'Where should I get the base image?')
-        string(name: 'BASE_IMAGE_NAME', defaultValue: 'alpine', description: 'What is the base image name?')
+        string(name: 'BASE_DOCKER_REGISTRY_URL', defaultValue: 'registry.hub.docker.com', description: 'Where should I get the base image?')
+        string(name: 'BASE_IMAGE_NAME', defaultValue: 'library/alpine', description: 'What is the base image name?')
         string(name: 'BASE_IMAGE_TAG', defaultValue: '3.16', description: 'Do we have a speical base image tag?')
 
         string(name: 'DOCKER_REGISTRY_URL', defaultValue: 'harbor.stacktonic.com.au', description: 'How should I store the image?')
