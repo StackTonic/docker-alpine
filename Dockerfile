@@ -2,7 +2,7 @@ FROM alpine:3.16 as rootfs-stage
 # environment
 ENV REL=v3.17
 ENV ARCH=x86_64
-ENV MIRROR=mirror.aarnet.edu.au/pub
+ENV MIRROR=mirror.aarnet.edu.au\\/pub
 ENV PACKAGES=alpine-baselayout,\
 alpine-keys,\
 apk-tools,\
@@ -10,7 +10,7 @@ busybox,\
 libc-utils,\
 xz
 # Set Mirror
-RUN sed -i "s/dl-cdn.alpinelinux.org/${MIRROR}/"" /etc/apk/repositories
+RUN sed -i "s/dl-cdn.alpinelinux.org/${MIRROR}/" /etc/apk/repositories
 
 # install packages
 RUN \
