@@ -2,9 +2,13 @@
 pipeline {
 
     parameters {
-        string(name: 'DOCKER_REGISTRY_URL', defaultValue: 'harbor.stacktonic.com.au', description: 'How should I store the Image?')
-        string(name: 'IMAGE_NAME', defaultValue: 'stacktonic/alpine', description: 'How should I store the Image?')
-        string(name: 'IMAGE_TAG', defaultValue: 'latest', description: 'Do we have a speical TAG?')
+        string(name: 'BASE_DOCKER_REGISTRY_URL', defaultValue: 'hub.docker.com', description: 'Where should I get the base image?')
+        string(name: 'BASE_IMAGE_NAME', defaultValue: 'alpine', description: 'What is the base image name?')
+        string(name: 'BASE_IMAGE_TAG', defaultValue: '3.16', description: 'Do we have a speical base image tag?')
+
+        string(name: 'DOCKER_REGISTRY_URL', defaultValue: 'harbor.stacktonic.com.au', description: 'How should I store the image?')
+        string(name: 'IMAGE_NAME', defaultValue: 'stacktonic/alpine', description: 'How should I store the image?')
+        string(name: 'IMAGE_TAG', defaultValue: 'latest', description: 'Do we have a speical tag?')
     }
 
     agent {
@@ -27,10 +31,13 @@ spec:
     }
     
     environment {
+        BASE_IMAGE_NAME="${params.BASE_IMAGE_NAME}"
+        BASE_IMAGE_TAG="${params.BASE_IMAGE_TAG}"
+        BASE_REPOSITORY_URL="${params.BASE_DOCKER_REGISTRY_URL}"
         IMAGE_NAME="${params.IMAGE_NAME}"
         IMAGE_TAG="${params.IMAGE_TAG}"
-        BRANCH_NAME= 'main'
         REPOSITORY_URL= 'https://github.com/StackTonic/docker-alpine.git'
+        BRANCH_NAME= 'main'
         DOCKER_REGISTRY_URL="${params.DOCKER_REGISTRY_URL}"
     }
     stages {
@@ -39,7 +46,7 @@ spec:
                 git branch:'main', url: 'https://github.com/StackTonic/docker-alpine.git'
             }
         }
-        stage('Login to Docker') {
+        stage('Login to Docker registry') {
             steps {
                 container('docker') {
                     withCredentials([usernamePassword(credentialsId: 'a0cdec83-46ce-49ab-b524-17f748b737db', passwordVariable: 'repo_pass', usernameVariable: 'repo_user')]) {
@@ -54,7 +61,7 @@ spec:
                 container('docker') {
                     sh 'printenv'
                     sh 'docker info'
-                    sh "docker build --network host -t ${IMAGE_NAME}:build-${BUILD_ID} ."
+                    sh "docker build --network host -t ${IMAGE_NAME}:build-${BUILD_ID} --build-arg BASE_REPOSITORY_URL=${BASE_REPOSITORY_URL} --build-arg BASE_IMAGE_NAME=${BASE_IMAGE_NAME} --build-arg BASE_IMAGE_TAG=${BASE_IMAGE_TAG}  ."
                 }
             }
         }
@@ -65,7 +72,7 @@ spec:
             }
         }
         
-        stage('Publish') {
+        stage('Publish to Docker registry') {
             steps {
                 container('docker') {
                     script {

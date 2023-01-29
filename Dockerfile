@@ -1,4 +1,8 @@
-FROM alpine:3.16 as rootfs-stage
+ARG BASE_REPOSITORY_URL=registry.hub.docker.com
+ARG BASE_IMAGE_NAME=library/alpine
+ARG BASE_IMAGE_TAG=3.16
+FROM ${BASE_REPOSITORY_URL}/${BASE_IMAGE_NAME}:${BASE_IMAGE_TAG} as rootfs-stage
+
 # environment
 ENV REL=v3.17
 ENV ARCH=x86_64
