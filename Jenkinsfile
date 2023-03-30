@@ -43,7 +43,7 @@ spec:
     stages {
         stage('Get Code') {
             steps {
-                git branch:'main', url: 'https://git.stacktonic.au/StackTonic/docker-alpine.git'
+                sh 'ls -lah'
             }
         }
         stage('Login to Docker registry') {
