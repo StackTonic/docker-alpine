@@ -4,9 +4,9 @@ pipeline {
     parameters {
         string(name: 'BASE_DOCKER_REGISTRY_URL', defaultValue: 'registry.hub.docker.com', description: 'Where should I get the base image?')
         string(name: 'BASE_IMAGE_NAME', defaultValue: 'library/alpine', description: 'What is the base image name?')
-        string(name: 'BASE_IMAGE_TAG', defaultValue: '3.16', description: 'Do we have a speical base image tag?')
+        string(name: 'BASE_IMAGE_TAG', defaultValue: '3.17', description: 'Do we have a speical base image tag?')
 
-        string(name: 'DOCKER_REGISTRY_URL', defaultValue: 'harbor.stacktonic.com.au', description: 'How should I store the image?')
+        string(name: 'DOCKER_REGISTRY_URL', defaultValue: 'harbor.stacktonic.au', description: 'How should I store the image?')
         string(name: 'IMAGE_NAME', defaultValue: 'stacktonic/alpine', description: 'How should I store the image?')
         string(name: 'IMAGE_TAG', defaultValue: 'latest', description: 'Do we have a speical tag?')
     }
@@ -36,14 +36,14 @@ spec:
         BASE_REPOSITORY_URL="${params.BASE_DOCKER_REGISTRY_URL}"
         IMAGE_NAME="${params.IMAGE_NAME}"
         IMAGE_TAG="${params.IMAGE_TAG}"
-        REPOSITORY_URL= 'https://github.com/StackTonic/docker-alpine.git'
+        REPOSITORY_URL= 'https://git.stacktonic.au/StackTonic/docker-alpine.git'
         BRANCH_NAME= 'main'
         DOCKER_REGISTRY_URL="${params.DOCKER_REGISTRY_URL}"
     }
     stages {
         stage('Get Code') {
             steps {
-                git branch:'main', url: 'https://github.com/StackTonic/docker-alpine.git'
+                git branch:'main', url: 'https://git.stacktonic.au/StackTonic/docker-alpine.git'
             }
         }
         stage('Login to Docker registry') {

@@ -1,6 +1,6 @@
 ARG BASE_REPOSITORY_URL=registry.hub.docker.com
 ARG BASE_IMAGE_NAME=library/alpine
-ARG BASE_IMAGE_TAG=3.16
+ARG BASE_IMAGE_TAG=3.17
 FROM ${BASE_REPOSITORY_URL}/${BASE_IMAGE_NAME}:${BASE_IMAGE_TAG} as rootfs-stage
 
 # environment
